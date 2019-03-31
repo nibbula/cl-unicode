@@ -1,5 +1,5 @@
 ;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CL-USER; Base: 10 -*-
-;;; $Header: /usr/local/cvsrep/cl-unicode/cl-unicode.asd,v 1.23 2012-05-04 21:17:44 edi Exp $
+;;; $Header$
 
 ;;; Copyright (c) 2008-2012, Dr. Edmund Weitz.  All rights reserved.
 
@@ -27,23 +27,10 @@
 ;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-(defsystem :cl-unicode
-  :version "0.1.5"
+(defsystem :cl-unicode-base
+  :depends-on (:cl-ppcre)
   :serial t
-  :description "Portable Unicode Library"
-  :depends-on (:cl-unicode-base)
   :license "BSD-2-Clause"
-  :components ((:file "conditions")
-               (:file "lists")
-               (:file "hash-tables")
-               (:file "api")
-               (:file "methods")
-               (:file "test-functions")
-               (:file "derived")
-               (:file "alias"))
-  :in-order-to ((test-op (test-op "cl-unicode-test"))))
-
-(defmethod component-depends-on ((o prepare-op) (c (eql (find-system :cl-unicode))))
-  `(,@(unless (every 'probe-file (output-files 'load-op :cl-unicode-build))
-       '((load-op :cl-unicode-build)))
-    ,@(call-next-method)))
+  :components  ((:file "packages")
+                (:file "specials")
+                (:file "util")))

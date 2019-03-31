@@ -1,6 +1,3 @@
-;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CL-USER; Base: 10 -*-
-;;; $Header: /usr/local/cvsrep/cl-unicode/cl-unicode.asd,v 1.23 2012-05-04 21:17:44 edi Exp $
-
 ;;; Copyright (c) 2008-2012, Dr. Edmund Weitz.  All rights reserved.
 
 ;;; Redistribution and use in source and binary forms, with or without
@@ -27,23 +24,15 @@
 ;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-(defsystem :cl-unicode
-  :version "0.1.5"
-  :serial t
-  :description "Portable Unicode Library"
-  :depends-on (:cl-unicode-base)
+(defsystem :cl-unicode-build
+  ;; FLEXI-STREAMS is only needed to /build/ CL-UNICODE
+  :depends-on (:cl-unicode-base :flexi-streams)
   :license "BSD-2-Clause"
-  :components ((:file "conditions")
-               (:file "lists")
-               (:file "hash-tables")
-               (:file "api")
-               (:file "methods")
-               (:file "test-functions")
-               (:file "derived")
-               (:file "alias"))
-  :in-order-to ((test-op (test-op "cl-unicode-test"))))
-
-(defmethod component-depends-on ((o prepare-op) (c (eql (find-system :cl-unicode))))
-  `(,@(unless (every 'probe-file (output-files 'load-op :cl-unicode-build))
-       '((load-op :cl-unicode-build)))
-    ,@(call-next-method)))
+  :components ((:module "build"
+                :serial t
+                :components ((:file "util")
+                             (:file "char-info")
+                             (:file "read")
+                             (:file "dump"))))
+  :output-files (load-op (o c) (values '("lists.lisp" "hash-tables.lisp" "methods.lisp") t))
+  :perform (load-op (o c) (symbol-call :cl-unicode '#:create-source-files)))
