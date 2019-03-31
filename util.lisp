@@ -190,12 +190,12 @@ be algorithmically derived.")
   "The code point of the last Hangul syllable the name of which can be
 algorithmically derived.")
 
-(defun add-hangul-names ()
+(defun add-hangul-names (&optional silently)
   "Computes the names for all Hangul syllables and registers them in
 the *HANGUL-SYLLABLES-TO-CODE-POINTS* hash table.  Used for
 CHARACTER-NAMED."
   (declare #.*standard-optimize-settings*)
-  (when *compile-verbose*
+  (when (and *compile-verbose* (not silently))
     (format t "~&;;; Computing Hangul syllable names")
     (force-output))
   (loop for code-point from +first-hangul-syllable+ to +last-hangul-syllable+

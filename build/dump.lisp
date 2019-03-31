@@ -172,7 +172,7 @@ hash-tables.lisp using DUMP-HASH-TABLE."
     (dump-hash-table '*property-aliases* out)
     ;; finally add code which adds the computed Hangul syllable names
     ;; at load time
-    (print '(add-hangul-names) out)))
+    (print '(add-hangul-names t) out)))
 
 (defun dump-list (list-name stream)
   "Writes code to the STREAM which reinitializes the list contained in
