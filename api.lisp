@@ -233,6 +233,7 @@ category.
 
 See also GENERAL-CATEGORIES.")
   (:method :around (c)
+   (declare (ignorable c))
    (multiple-value-bind (name symbol)
        (call-next-method)
      (cond (name (values name symbol))
@@ -291,6 +292,7 @@ non-negative integer.  C can be the character's code point \(a
 positive integer) or a \(Lisp) character assuming its character code
 is also its Unicode code point.")
   (:method :around (c)
+   (declare (ignorable c))
    (or (call-next-method) 0))
   (:method ((char character))
    (combining-class (char-code char))))
