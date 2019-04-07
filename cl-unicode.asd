@@ -28,7 +28,7 @@
 ;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 (defsystem :cl-unicode
-  :version "0.1.5"
+  :version "0.1.6"
   :serial t
   :description "Portable Unicode Library"
   :depends-on (:cl-unicode-base)
